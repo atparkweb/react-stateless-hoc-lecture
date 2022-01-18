@@ -1,23 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
 
+import ArchiveableList from './components/ArchiveableListHOC';
+
 function App() {
+  const list = [
+    {
+      id: 1,
+      name: 'Item 1'
+    },
+    {
+      id: 2,
+      name: 'Item 2'
+    }
+  ];
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ArchiveableList list={list} />
     </div>
   );
 }
