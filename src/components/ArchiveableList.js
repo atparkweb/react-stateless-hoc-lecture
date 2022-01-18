@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 /*
  * This component has two responsibilities: Rendering a list and managing archived items.
  * It can be improved by separating logic and presentation.
- * 
+ *
  */
 
 class ArchiveableList extends React.Component {
@@ -11,7 +11,7 @@ class ArchiveableList extends React.Component {
     super(props);
 
     this.state = {
-      archivedItems: []
+      archivedItems: [],
     };
 
     this.onArchive = this.onArchive.bind(this);
@@ -21,41 +21,37 @@ class ArchiveableList extends React.Component {
     const { archivedItems } = this.state;
 
     this.setState({
-      archivedItems: [...archivedItems, id]
+      archivedItems: [...archivedItems, id],
     });
   }
 
   render() {
     const { list } = this.props;
-    const { archivedItems }  = this.state;
+    const { archivedItems } = this.state;
 
     const filteredList = list.filter(byArchived(archivedItems));
 
     return (
       <ul>
-        {filteredList.map(item => {
+        {filteredList.map(item => (
           <li key={item.id}>
+            <span>{item.name}</span>
             <span>
-              {item.name}
-            </span>
-            <span>
-              <button
-                type="button"
-                onClick={() => this.onArchive(item.id)}>
+              <button type="button" onClick={() => this.onArchive(item.id)}>
                 Archive
               </button>
             </span>
           </li>
-        })}
+        ))}
       </ul>
-    )
+    );
   }
 }
 
 function byArchived(archivedItems) {
-  return function(item) {
+  return function (item) {
     return !archivedItems.includes(item.id);
-  }
+  };
 }
 
 export default ArchiveableList;
