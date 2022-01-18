@@ -1,6 +1,7 @@
 import './App.css';
 
 import ArchiveableList from './components/ArchiveableListHOC';
+import A from './components/context_hierarchy/A';
 
 function App() {
   const list = [
@@ -17,6 +18,7 @@ function App() {
   return (
     <div className="App">
       <ArchiveableList list={list} />
+      <A />
     </div>
   );
 }
