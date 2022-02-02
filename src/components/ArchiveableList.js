@@ -25,6 +25,13 @@ class ArchiveableList extends React.Component {
     });
   }
 
+  componentDidMount() {
+    // rehydration
+    fetch('path/to/archived/items')
+      .then(response => response.json())
+      .then(archivedItems => this.setState(rehydrateArchivedItems(archivedItems)));
+  }
+
   render() {
     const { list } = this.props;
     const { archivedItems } = this.state;
@@ -51,6 +58,17 @@ class ArchiveableList extends React.Component {
 function byArchived(archivedItems) {
   return function (item) {
     return !archivedItems.includes(item.id);
+  };
+}
+
+function rehydrateArchivedItems(archivedItems) {
+  return function (prevState) {
+    return {
+      archivedItems: [
+        ...prevState.archivedItems,
+        ...archivedItems
+      ]
+    };
   };
 }
 

@@ -4,7 +4,7 @@ import List from './List';
 function byArchived(archivedItems) {
   return function(item) {
     return !archivedItems.includes(item.id);
-  }
+  };
 }
 
 function withArchive(Component) {
@@ -14,7 +14,7 @@ function withArchive(Component) {
 
       this.state = {
         archivedItems: []
-      }
+      };
 
       this.onArchive = this.onArchive.bind(this);
     }
@@ -33,7 +33,9 @@ function withArchive(Component) {
 
       const filteredList = list.filter(byArchived(archivedItems));
 
-      return <Component list={filteredList} onArchive={this.onArchive} />
+        return (
+            <Component list={filteredList} onArchive={this.onArchive} />
+        );
     }
   }
 
