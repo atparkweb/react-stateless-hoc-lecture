@@ -1,9 +1,10 @@
 // Import Redux
-const { createStore } = require('redux');
+const { combineReducers, createStore } = require('redux');
 
 // Actions
 const ADD_TODO = 'ADD_TODO';
 const TOGGLE_TODO = 'TOGGLE_TODO';
+const FILTER_SET = 'FILTER_SET';
 
 // Action Creators
 function doAddTodo(id, name) {
@@ -26,25 +27,48 @@ function doToggleTodo(id) {
 }
 
 // Reducer
-function reducer(state, action) {
+function todoReducer(state = [], action) {
   switch(action.type) {
     case ADD_TODO:
-      return [...state, action.payload];
+      return applyAddTodo(state, action);
     case TOGGLE_TODO:
-      return state.map(todo => {
-        if (todo.id === action.payload.id) {
-          return { ...todo, completed: !todo.completed };
-        } else {
-          return todo;
-        }
-      });
+      return applyToggleTodo(state, action);
     default:
       return state;
   }
 }
+function applyAddTodo(state, action) {
+  return [...state, action.payload];
+}
+function applyToggleTodo(state, action) {
+  return state.map(todo => {
+    if (todo.id === action.payload.id) {
+      return Object.assign({}, todo, { completed: !todo.completed });
+    } else {
+      return todo;
+    }
+  });
+}
+
+function filterReducer(state = 'SHOW_ALL', action) {
+  switch(action.type) {
+    case FILTER_SET:
+      return applySetFilter(state, action);
+    default: return state;
+  }
+}
+function applySetFilter(state, action) {
+  return action.filter;
+}
+
+// Combine reducers
+const rootReducer = combineReducers({
+  todoState: todoReducer,
+  filterState: filterReducer
+});
 
 // Create store
-const store = createStore(reducer, []);
+const store = createStore(rootReducer, { filterState: 'SHOW_NONE' });
 
 // Subscribe
 const unsubscribe = store.subscribe(() => console.log(store.getState()));
